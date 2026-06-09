@@ -1,0 +1,6 @@
+/target
+*.zfo
+.env
+.venv/
+google-credentials.json
+*.pem

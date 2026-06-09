@@ -136,6 +136,7 @@ fn find_token_for_account(
     )
 }
 
+#[allow(unused_variables)]
 fn create_storage(
     backend: &str,
     account_id: &str,

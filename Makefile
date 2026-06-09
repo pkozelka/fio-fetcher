@@ -1,4 +1,4 @@
-.PHONY: build build-gdrive test check clean install run run-gdrive require-FIO_TOKEN
+.PHONY: build test check clean install run run-gdrive require-FIO_TOKEN
 
 -include .env
 export FIO_TOKEN
@@ -21,23 +21,19 @@ require-FIO_TOKEN:
 # ── Build targets ───────────────────────────────────────────────────
 
 build:
-	cargo build --release
+	cargo build --release --features gdrive
 
 test:
-	cargo test
+	cargo test --features gdrive
 
 check:
-	cargo check
-	cargo clippy -- -D warnings
+	cargo clippy --features gdrive --all-targets -- -D warnings
 
 clean:
 	cargo clean
 
 install: build
 	install -m 755 target/release/fio-fetcher $(HOME)/.local/bin/
-
-build-gdrive:
-	cargo build --release --features gdrive
 
 # ── Run targets ─────────────────────────────────────────────────────
 
@@ -51,7 +47,7 @@ run: build require-FIO_TOKEN
 # Optional: FIO_GDRIVE_FOLDER (default: Fio/{ACCOUNT_ID})
 #   Supports: path "Fio/origis", id "id:FOLDER_ID", shared drive "drive:MyDrive/Sub"
 #   FIO_GDRIVE_IMPERSONATE (user email for domain-wide delegation)
-run-gdrive: build-gdrive require-FIO_TOKEN
+run-gdrive: build require-FIO_TOKEN
 	test -n "$(FIO_GDRIVE_CREDENTIALS)"  # FIO_GDRIVE_CREDENTIALS is required for gdrive
 	./target/release/fio-fetcher fetch-account auto --storage gdrive $(FETCHER_ARGS)
 

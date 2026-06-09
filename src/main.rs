@@ -140,9 +140,9 @@ fn create_storage(
     backend: &str,
     account_id: &str,
     message_dir: Option<&str>,
-    gdrive_credentials: Option<&str>,
-    gdrive_folder: Option<&str>,
-    gdrive_impersonate: Option<&str>,
+    _gdrive_credentials: Option<&str>,
+    _gdrive_folder: Option<&str>,
+    _gdrive_impersonate: Option<&str>,
 ) -> Result<Box<dyn TransactionStorage>> {
     match backend {
         "filesystem" => {
@@ -158,10 +158,10 @@ fn create_storage(
         }
         #[cfg(feature = "gdrive")]
         "gdrive" | "gdrive-sheets" => {
-            let credentials_path = gdrive_credentials.ok_or_else(|| {
+            let credentials_path = _gdrive_credentials.ok_or_else(|| {
                 anyhow::anyhow!("--gdrive-credentials required for gdrive storage")
             })?;
-            let folder_name = gdrive_folder
+            let folder_name = _gdrive_folder
                 .ok_or_else(|| anyhow::anyhow!("--gdrive-folder required for gdrive storage"))?;
             let spreadsheet_name = format!("FIO Account {}", account_id);
 
@@ -172,7 +172,7 @@ fn create_storage(
                 account_id,
                 Some(account_id),
                 None,
-                gdrive_impersonate,
+                _gdrive_impersonate,
             )?;
 
             Ok(Box::new(storage))

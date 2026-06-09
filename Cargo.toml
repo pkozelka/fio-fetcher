@@ -21,7 +21,7 @@ urlencoding = { version = "2", optional = true }
 jsonwebtoken = { version = "9", optional = true }
 
 [features]
-default = ["filesystem"]
+default = []
 filesystem = []
 gdrive = ["urlencoding", "jsonwebtoken"]
 

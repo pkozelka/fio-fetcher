@@ -4,3 +4,5 @@
 .venv/
 google-credentials.json
 *.pem
+.idea/
+.DS_Store
